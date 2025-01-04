@@ -1,1 +1,1 @@
-from .Graphs import Graph
+from .Graph import Graph

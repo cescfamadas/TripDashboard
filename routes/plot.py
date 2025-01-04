@@ -2,10 +2,9 @@ import server as s
 from flask import Blueprint, jsonify, request, current_app
 import Database as db
 import pandas as pd
-from Extensions import Graphs as gp
+from Extensions import Graph as gp
 plot_bp = Blueprint('plot', __name__)
 db = db.Database()
-gp = gp.Graph(True)
 
 
 @ plot_bp.route("/producte", methods=["GET"])
@@ -34,5 +33,8 @@ def pesTotalByProduct(producte=None):
         params = ()
 
     rows, columns = db.query(sql, params)
-    data = pd.DataFrame(rows, columns=columns).to_dict(orient='records')
-    gp.generate_graph(data, 'producte', 'pes', 'Pes total per producte')
+    data = pd.DataFrame(rows, columns=columns,)
+    plot_div = gp.generate_bar(
+        data=data, x_label='producte', y_label='pes', title='Pes total per producte')
+
+    return plot_div
